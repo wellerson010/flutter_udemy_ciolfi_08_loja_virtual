@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'main_screen.dart';
 import 'custom_drawer.dart';
+import 'products_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final _pageController = PageController();
@@ -13,8 +14,22 @@ class HomeScreen extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
         Scaffold(
-          drawer: CustomDrawer(),
+          drawer: CustomDrawer(_pageController),
           body: MainScreen(),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: Text('Produtos'),
+            centerTitle: true,
+          ),
+          drawer: CustomDrawer(_pageController),
+          body: ProductsScreen(),
+        ),
+        Container(
+            color: Colors.red
+        ),
+        Container(
+            color: Colors.green
         )
       ],
     );

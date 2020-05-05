@@ -9,6 +9,14 @@
 * SliverStaggeredGrid
 * Stack / Positioning
 * Obtendo valores do tema
+* Drawer
+* Material
+* Inkwell
+* Tonalidade de Color
+* ListTile.DivideTiles
+* Abas
+* AspectRatio
+* Flexible
 
 android/app/build.gradle
 apply plugin: 'com.google.gms.google-services'
