@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterlojavirtual/model/scope_model/user_model.dart';
+import 'package:flutterlojavirtual/screens/login_screen.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import 'drawer_tile.dart';
 
@@ -43,20 +46,34 @@ class CustomDrawer extends StatelessWidget {
                     Positioned(
                       left: 0,
                       bottom: 0,
-                      child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Olá,', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                          GestureDetector(
-                            child: Text('Entre ou cadastre-se', style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold
-                            )),
-                            onTap: (){},
-                          )
-                        ],
-                      ),
+                      child: ScopedModelDescendant<UserModel>(
+                        builder: (context, child, userModel){
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('Olá, ${userModel.isLoggedIn ? userModel.name:''}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                              GestureDetector(
+                                child: Text(userModel.isLoggedIn ? 'Sair': 'Entre ou cadastre-se', style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold
+                                )),
+                                onTap: (){
+                                  if (userModel.isLoggedIn){
+                                    userModel.signOut();
+                                  }
+                                  else {
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (context) => LoginScreen()
+                                    ));
+                                  }
+
+                                },
+                              )
+                            ],
+                          );
+                        },
+                      )
                     )
                   ],
                 )
