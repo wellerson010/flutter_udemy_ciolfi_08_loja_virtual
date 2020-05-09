@@ -9,9 +9,12 @@ class SignUpScreen extends StatelessWidget {
   final _passController = TextEditingController();
   final _addressController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  BuildContext _context;
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -107,12 +110,8 @@ class SignUpScreen extends StatelessWidget {
                                 password: _passController.text,
                                 address: _addressController.text,
                                 name: _nameController.text,
-                                onSuccess: (){
-                                  _onSuccess(context);
-                                },
-                                onFail: (){
-                                  _onFail(context);
-                                }
+                                onSuccess: _onSuccess,
+                                onFail: _onFail
                             );
                           }
                         },
@@ -128,19 +127,19 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  void _onSuccess(BuildContext context){
+  void _onSuccess(){
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text('Usuário criado com sucesso!'),
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(_context).primaryColor,
       duration: Duration(seconds: 2),
     ));
 
     Future.delayed(Duration(seconds: 2)).then((_){
-      Navigator.of(context).pop();
+      Navigator.pop(_context);
     });
   }
 
-  void _onFail(BuildContext context){
+  void _onFail(){
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text('Usuário não criado!'),
       backgroundColor: Colors.redAccent,

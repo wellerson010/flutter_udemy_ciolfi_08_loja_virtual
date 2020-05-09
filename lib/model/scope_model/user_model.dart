@@ -13,6 +13,13 @@ class UserModel extends Model{
 
   bool isLoading = false;
 
+
+  @override
+  void addListener(VoidCallback listener) {
+    super.addListener(listener);
+    _loadCurrentUser();
+  }
+
   void signUp({ @required String email, @required String name, @required String password, @required String address, @required VoidCallback onSuccess, @required VoidCallback onFail} ){
     isLoading = true;
     notifyListeners();
@@ -30,20 +37,29 @@ class UserModel extends Model{
       isLoading = false;
       onFail();
 
-      print(error);
+      print('error' + error.toString());
 
       notifyListeners();
     });
   }
 
-  void signIn() async{
+  void signIn({@required String email, @required String password, @required VoidCallback onSuccess, @required VoidCallback onFail}) async{
     isLoading = true;
     notifyListeners();
 
-    await Future.delayed(Duration(seconds: 3));
+    _auth.signInWithEmailAndPassword(email: email, password: password).then((user) async{
+      _user = user.user;
+      await _loadCurrentUser();
 
-    isLoading = false;
-    notifyListeners();
+      onSuccess();
+      isLoading = false;
+
+      notifyListeners();
+    }).catchError((e){
+      onFail();
+      isLoading = false;
+      notifyListeners();
+    });
   }
 
   bool get isLoggedIn{
@@ -51,10 +67,17 @@ class UserModel extends Model{
   }
 
   Future<Null> _saveUserData(String address, String name) async{
-    address = address;
-    await Firestore.instance.collection('users').document(_user.uid).setData({
+    this.address = address;
+    this.name = name;
+
+    print({
       address: address,
       name: name
+    });
+
+    await Firestore.instance.collection('users').document(_user.uid).setData({
+      'address': address,
+      'name': name
     });
   }
 
@@ -67,4 +90,25 @@ class UserModel extends Model{
 
     notifyListeners();
   }
+
+  void recoverPass(String email){
+    _auth.sendPasswordResetEmail(email: email);
+  }
+
+  Future<Null> _loadCurrentUser() async {
+    if (_user == null){
+      _user = await _auth.currentUser();
+    }
+
+    if (_user != null){
+        DocumentSnapshot doc = await Firestore.instance.collection('users').document(_user.uid).get();
+        Map<String, dynamic> data = doc.data;
+
+        name = data['name'];
+        address = data['address'];
+        notifyListeners();
+    }
+  }
+
+
 }
