@@ -21,6 +21,7 @@
 * ScopedModel
 * VoidCallback
 * @Required
+* ExpanstionTile
 
 android/app/build.gradle
 apply plugin: 'com.google.gms.google-services'

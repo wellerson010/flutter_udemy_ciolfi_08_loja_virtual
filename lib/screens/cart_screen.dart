@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutterlojavirtual/model/scope_model/card_model.dart';
 import 'package:flutterlojavirtual/model/scope_model/user_model.dart';
+import 'package:flutterlojavirtual/screens/cart_price.dart';
 import 'package:flutterlojavirtual/screens/cart_tile.dart';
+import 'package:flutterlojavirtual/screens/discount_card.dart';
 import 'package:flutterlojavirtual/screens/login_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -72,7 +74,11 @@ class CartScreen extends StatelessWidget {
                   children: model.products.map((product){
                     return CartTile(product);
                   }).toList(),
-                )
+                ),
+                DiscountCard(),
+                CartPrice((){
+
+                })
               ],
             );
           }
