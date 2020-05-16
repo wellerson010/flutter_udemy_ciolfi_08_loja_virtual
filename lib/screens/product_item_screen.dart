@@ -106,15 +106,24 @@ class ProductItemScreen extends StatelessWidget {
                      childAspectRatio: 0.65
                    ),
                    itemCount: snapshot.data.documents.length,
-                   itemBuilder: (context, index) => _buildProductTile('grid', ProductItem.fromDocument(snapshot.data.documents[index]), context)),
+                   itemBuilder: (context, index) => _buildProductTile('grid', buildProductItem(snapshot.data.documents[index], this.snapshot.documentID), context)),
                 ListView.builder(
                   itemCount: snapshot.data.documents.length,
-                    itemBuilder: (context, index) =>  _buildProductTile('list', ProductItem.fromDocument(snapshot.data.documents[index]), context))
+                    itemBuilder: (context, index) =>  _buildProductTile('list', buildProductItem(snapshot.data.documents[index], this.snapshot.documentID), context))
               ],
             );
           },
         )
       ),
     );
+  }
+
+  ProductItem buildProductItem(DocumentSnapshot snapshot, String categoryId){
+    ProductItem item = ProductItem.fromDocument(snapshot);
+    print('categoryid' + categoryId);
+
+    item.categoryId = categoryId;
+
+    return item;
   }
 }

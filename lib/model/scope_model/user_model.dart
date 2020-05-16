@@ -13,6 +13,11 @@ class UserModel extends Model{
 
   bool isLoading = false;
 
+  static UserModel of(BuildContext context) => ScopedModel.of<UserModel>(context);
+
+  String get firebaseUserUid {
+    return _user?.uid;
+  }
 
   @override
   void addListener(VoidCallback listener) {
