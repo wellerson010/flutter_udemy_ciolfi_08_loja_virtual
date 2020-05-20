@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterlojavirtual/screens/cart_button.dart';
+import 'package:flutterlojavirtual/screens/orders_screen.dart';
 
 import 'main_screen.dart';
 import 'custom_drawer.dart';
@@ -31,8 +32,13 @@ class HomeScreen extends StatelessWidget {
         Container(
             color: Colors.red
         ),
-        Container(
-            color: Colors.green
+        Scaffold(
+          appBar: AppBar(
+            title: Text('Meus pedidos'),
+            centerTitle: true,
+          ),
+          body: OrdersScreen(),
+          drawer: CustomDrawer(_pageController),
         )
       ],
     );

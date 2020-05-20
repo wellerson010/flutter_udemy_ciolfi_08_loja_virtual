@@ -5,6 +5,7 @@ import 'package:flutterlojavirtual/screens/cart_price.dart';
 import 'package:flutterlojavirtual/screens/cart_tile.dart';
 import 'package:flutterlojavirtual/screens/discount_card.dart';
 import 'package:flutterlojavirtual/screens/login_screen.dart';
+import 'package:flutterlojavirtual/screens/order_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartScreen extends StatelessWidget {
@@ -80,7 +81,7 @@ class CartScreen extends StatelessWidget {
                   String orderId = await model.finishOrder();
 
                   if (orderId != null){
-                    print(orderId);
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => OrderScreen(orderId)));
                   }
                 })
               ],
